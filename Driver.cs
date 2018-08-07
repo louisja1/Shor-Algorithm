@@ -30,6 +30,9 @@ namespace Shor
 
         static long[] continuedFractionExtension(double x)
         {
+			/**
+			 * Generate continued fraction for a certain double type number
+			**/
             double PRECISION = 1e-9;
             int ITERATION = 100;
             long[] fractions;
@@ -58,6 +61,9 @@ namespace Shor
 
         static Frac[] restoreContinuedFraction(long[] arr)
         {
+			/**
+			 * restore a double type number from an array of dominators of continued fraction
+			**/
             int i = 0;
             Frac[] fracArray = new Frac[100];
             while (true)
@@ -90,6 +96,13 @@ namespace Shor
 
         static long factor(long N)
         {
+			/*
+			 * The main factorization algorithm. 
+			 * If N is even, return the factor 2.
+			 * Randomly choose x in the range from 1 to N-1. If(gcd(x, N) > 1) then return the factor gcd(x, N).
+			 * Use the order-finding subroutine to find the order r of x modulo N.
+			 * Return the answer according to certain rule.
+			 */
             while (true)
             {
                 if (N % 2 == 0)
@@ -134,6 +147,9 @@ namespace Shor
 
         static long quickPower(long x, long y, long N)
         {
+			/*
+			 * A quick power function with modulo
+			 */
             if (y == 0)
             {
                 return 1;
@@ -149,12 +165,18 @@ namespace Shor
 
         static long qQrderFinding(long x, long N)
         {
+			/*
+			 * The main function of order finding. 
+			 * Find phase estimation sr using quantum algorithms(see getPhaseEstimation)
+			 * Generate continued fraction of sr. 
+			 * Restore sr into a group of fractions.
+			 * Check the dominator of each fraction.
+			 */
             double sr = getPhaseEstimation(x, N);
             if(sr == 0)
             {
                 return -1;
             }
-            //Console.WriteLine($"sr: {sr}");
             long[] arr = continuedFractionExtension(sr);
             Frac[] fracArray = restoreContinuedFraction(arr);
             foreach (Frac item in fracArray)
@@ -170,7 +192,9 @@ namespace Shor
 
         static double getPhaseEstimation(long a, long N)
         {
-            // Console.WriteLine($"getPhaseEstimation: the random number：{a}, N: {N}");
+			/*
+			 * Use quantum algorithm to get phase estimation(see quantumOrderFinding in Shor.qs)
+			 */
             double sr = 0;
             double dom = 1.0;
             int TBIT = 7;
@@ -196,6 +220,9 @@ namespace Shor
 
         class Frac
         {
+			/*
+			 * A Fraction class for convenience
+			 */
             public long numerator, dominator;
             public Frac()
             {

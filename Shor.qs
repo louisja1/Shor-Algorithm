@@ -96,7 +96,7 @@
             for (p in 0 .. n - 1) {
                 let i = n - 1 - p;
                 for (q in 0 .. p - 1) {
-                    let j = n - 1 - q; 
+                    let j = n - 1 - q;
                     (Controlled R1) ([qubits[j]], (-2.0 * pi / powers[j - i + 1], qubits[i]));
                 }
                 H(qubits[i]);
@@ -124,7 +124,7 @@
                 (Adjoint quantumFourierTransform) (x);
                 set result = measure(x, t);
                 ResetAll(qs);
-            }	
+            }
 			return result;
         }
     }
